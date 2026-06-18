@@ -220,6 +220,8 @@ input:checked+.sld:before{transform:translateX(20px)}
 @keyframes clPop{0%{opacity:0;transform:scale(0)}60%{opacity:1;transform:scale(1.25)}100%{opacity:1;transform:scale(1)}}
 @keyframes clRise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 .cl-result{color:var(--pink);font-weight:700;font-size:1.05rem;text-align:center;margin-top:1rem}
+/* Seção revelada pela VTurb no tempo do pitch (fica oculta por padrão) */
+.esconder{display:none}
 @media (prefers-reduced-motion:reduce){.cl-chart .cl-line,.cl-chart .cl-curve,.cl-chart .cl-area,.cl-chart .cl-dot,.cl-chart .cl-lbl,.cl-chart .cl-dash{animation:none!important;opacity:1!important;stroke-dashoffset:0!important}}
 </style>
 <!-- UTMify - rastreamento de UTMs -->
@@ -1051,6 +1053,9 @@ const IMG_COUCH = "data:image/webp;base64,UklGRvL3AABXRUJQVlA4WAoAAAAgAAAAfwcA1Q
       <vturb-smartplayer id="vid-6a320919e0302d90e0a2c381" style="display:block;margin:0 auto;width:100%;max-width:400px"></vturb-smartplayer>
       <script type="text/javascript">var s=document.createElement("script");s.src="https://scripts.converteai.net/7ba8c62e-1963-4c82-93aa-071724a232c9/players/6a320919e0302d90e0a2c381/v4/player.js",s.async=!0,document.head.appendChild(s);</script>
     </div>
+
+    <!-- Seção de oferta: OCULTA até o pitch da VSL. A VTurb revela pelo id "oferta-vsl" ou classe "esconder". -->
+    <div id="oferta-vsl" class="esconder">
     <a href="https://checkout.payt.com.br/c9f574d49964179d12e2c7948bffcbd9" target="_blank" class="cta">Obter meu plano personalizado agora</a>
     <div style="text-align:center;font-size:.85rem;font-weight:700;color:#ea580c;margin:.5rem 0 1.2rem">🔥 Restam apenas <span class="vagas">6</span> vagas</div>
 
@@ -1120,6 +1125,7 @@ const IMG_COUCH = "data:image/webp;base64,UklGRvL3AABXRUJQVlA4WAoAAAAgAAAAfwcA1Q
     <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Como posso acessar meu plano? <span>›</span></button><div class="faq-a">Após a compra, você receberá acesso imediato pelo nosso aplicativo ou plataforma web.</div></div>
     <a href="https://checkout.payt.com.br/c9f574d49964179d12e2c7948bffcbd9" target="_blank" class="cta" style="margin-top:1.2rem">Obter meu plano personalizado agora</a>
     <p style="font-size:.63rem;color:var(--muted);text-align:center;margin-top:.4rem"><a href="#" style="text-decoration:underline;color:inherit">Termos de Serviço</a> · <a href="#" style="text-decoration:underline;color:inherit">Política de Privacidade</a></p>
+    </div><!-- /#oferta-vsl -->
   </div></div>
 </div>
 
