@@ -1413,7 +1413,19 @@ function buildPlan(){
   const pp=document.getElementById('pcomm');if(pp)pp.textContent=cm[ST.comm]||`Sua primeira grande transformação está prevista para o dia ${ds}.`;
 }
 
-let OT=null;
+let OT=null,_cdStarted=false;
+// Libera a barra de contagem e inicia o cronômetro (chamado quando a oferta é revelada no pitch)
+function startCountdown(){
+  if(_cdStarted)return;_cdStarted=true;
+  const bar=document.getElementById('obar');if(bar)bar.style.display='flex';
+  let mn=10,sc=0;
+  OT=setInterval(()=>{
+    if(mn===0&&sc===0){clearInterval(OT);return;}
+    if(sc===0){mn--;sc=59;}else sc--;
+    const el=document.getElementById('otimer');
+    if(el)el.textContent=String(mn).padStart(2,'0')+':'+String(sc).padStart(2,'0');
+  },1000);
+}
 function initOffer(){
   // Datas dinâmicas: alvo (+21 dias) e validade da oferta (hoje)
   const mm=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
@@ -1422,16 +1434,13 @@ function initOffer(){
   document.querySelectorAll('.offer-target').forEach(e=>e.textContent=alvo.getDate()+' de '+mm[alvo.getMonth()]);
   const dd=String(hoje.getDate()).padStart(2,'0'),mo=String(hoje.getMonth()+1).padStart(2,'0');
   document.querySelectorAll('.offer-today').forEach(e=>e.textContent=', '+dd+'/'+mo+'/'+hoje.getFullYear());
-  if(!OT){
-    let mn=10,sc=0;
-    const bar=document.getElementById('obar');if(bar)bar.style.display='flex';
-    OT=setInterval(()=>{
-      if(mn===0&&sc===0){clearInterval(OT);return;}
-      if(sc===0){mn--;sc=59;}else sc--;
-      const el=document.getElementById('otimer');
-      if(el)el.textContent=String(mn).padStart(2,'0')+':'+String(sc).padStart(2,'0');
-    },1000);
-  }
+  // A barra de contagem só é liberada quando a VTurb revela a oferta (#oferta-vsl) no pitch.
+  const sec=document.getElementById('oferta-vsl');
+  if(!sec||getComputedStyle(sec).display!=='none'){startCountdown();return;}
+  const obs=new MutationObserver(()=>{
+    if(getComputedStyle(sec).display!=='none'){startCountdown();obs.disconnect();}
+  });
+  obs.observe(sec,{attributes:true,attributeFilter:['style','class']});
 }
 
 function toggleFaq(btn){btn.nextElementSibling.classList.toggle('open');}
