@@ -1083,7 +1083,7 @@ const IMG_COUCH = "data:image/webp;base64,UklGRvL3AABXRUJQVlA4WAoAAAAgAAAAfwcA1Q
     <!-- VSL (vídeo de vendas) abaixo da headline -->
     <div style="margin:.6rem 0 1rem">
       <vturb-smartplayer id="vid-6a320919e0302d90e0a2c381" style="display: block; margin: 0 auto; width: 100%; max-width: 400px;"><div class="vturb-player-placeholder" style="position: relative; width: 100%; padding: 178.21782178217822% 0 0; z-index: 0; background-color: black;"></div></vturb-smartplayer>
-      <script type="text/javascript">var s=document.createElement("script");s.src="https://scripts.converteai.net/7ba8c62e-1963-4c82-93aa-071724a232c9/players/6a320919e0302d90e0a2c381/v4/player.js",s.async=!0,document.head.appendChild(s);</script>
+      <!-- O player.js NÃO é carregado no load da página, e sim só quando o usuário chega na tela da VSL (s35), via loadVSL() em initOffer(). Assim o play rate da VTurb reflete só quem realmente vê a VSL. -->
     </div>
 
     <!-- Seção de oferta: OCULTA até o pitch da VSL. A VTurb revela pelo id "oferta-vsl" ou classe "esconder". -->
@@ -1458,7 +1458,17 @@ function startCountdown(){
     if(el)el.textContent=String(mn).padStart(2,'0')+':'+String(sc).padStart(2,'0');
   },1000);
 }
+// Carrega o player da VTurb SOB DEMANDA (só quando o usuário chega na VSL).
+// Roda uma única vez — evita inflar o "play rate" com quem nunca chegou aqui.
+var _vslLoaded=false;
+function loadVSL(){
+  if(_vslLoaded)return;_vslLoaded=true;
+  var s=document.createElement("script");
+  s.src="https://scripts.converteai.net/7ba8c62e-1963-4c82-93aa-071724a232c9/players/6a320919e0302d90e0a2c381/v4/player.js";
+  s.async=!0;document.head.appendChild(s);
+}
 function initOffer(){
+  loadVSL();
   // Datas dinâmicas: alvo (+21 dias) e validade da oferta (hoje)
   const mm=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
   const hoje=new Date();
